@@ -12,7 +12,7 @@ main = do
         putStr help
     else do
         home <- getHomeDirectory
-        let expPath = [ "exp.txt", "~/exp.txt", home ++ "exp.txt"]
+        let expPath = [ "exp.txt", home ++ "exp.txt"]
         exp  <- expLocate $ args ++ expPath
         heading "stats"
         putStr

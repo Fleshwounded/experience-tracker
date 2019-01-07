@@ -55,7 +55,6 @@ You put `exp.hs` in any directory and run it from the command line like so:
 If you don’t specify a path to an experiences file, then it will look for a file called `exp.txt` in the following locations:
 
 * The current directory
-* The root directory (Linux)
 * The home directory (platform-agnostic)
 
 `exp.hs` should run on any major OS, but it is coded in Haskell so you will need to install <a href="https://www.haskell.org/ghc/">GHC</a> in order to run it using `runhaskell`.
