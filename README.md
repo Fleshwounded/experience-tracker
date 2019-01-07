@@ -10,11 +10,15 @@ weed lsd
 weed lsd noopept
 weed lsd noopept alcohol
 weed lsd dmt
+
+alcohol
+alcohol weed
+alcohol lsd
 ````
 
-So basically, every drug you have taken individually is on its own line. For drug combos, you write the drugs on the same line. Notice how this creates hierarchies of unique combos - because `weed lsd noopept` is a different experience from `weed lsd noopept alcohol`. Newlines are ignored.
+So basically, every drug you have taken individually is on its own line. For drug combos, you write the drugs on the same line. Notice how this creates hierarchies of unique combos - because `weed lsd noopept` is a different experience from `weed lsd noopept alcohol`. Empty lines are ignored.
 
-The main pitfall with this notation is duplicates, because `weed lsd` is the same experience as `lsd weed`. But the experience tracker can help you with this...
+The main pitfall of this notation is duplicates, because `weed lsd` is the same experience as `lsd weed`. But that is why the experience tracker has a good duplicate detector...
 
 ## 2. Use the experience tracker (`exp.hs`)
 
