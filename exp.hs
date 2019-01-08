@@ -1,30 +1,30 @@
 import Control.Applicative
 import Data.Char (toUpper)
-import Data.List (intercalate, (\\), tails, find)
+import Data.List ((\\), find, intercalate, tails)
 import System.Environment (getArgs)
-import System.Directory (getHomeDirectory, doesFileExist)
+import System.Directory (doesFileExist, getCurrentDirectory, getHomeDirectory)
 
 main = do
     args <- getArgs
     if anyEq ["-h", "--help"] args
-    then do
-        help <- readFile "README.md"
-        putStr help
-    else do
-        home <- getHomeDirectory
-        let expPath = [ "exp.txt", home ++ "exp.txt"]
-        exp  <- expLocate $ args ++ expPath
-        heading "stats"
-        putStr
-            $  statShow "Drugs" drugCount exp
-            ++ statShow "Combos" comboCount exp
-            ++ statShow "Total" totalCount exp
-        heading "duplicates"
-        putStr
-            $ pretty
-            $ onlyDupes
-            $ dupes
-            $ wordList exp
+        then do
+            help <- readmeGet
+            putStr help
+        else do
+            home <- getHomeDirectory
+            let expPath = [ "exp.txt", home ++ "exp.txt"]
+            exp  <- expGet $ args ++ expPath
+            heading "stats"
+            putStr
+                $  statShow "Drugs" drugCount exp
+                ++ statShow "Combos" comboCount exp
+                ++ statShow "Total" totalCount exp
+            heading "duplicates"
+            putStr
+                $ pretty
+                $ onlyDupes
+                $ dupes
+                $ wordList exp
 
 -- General --------------------
 
@@ -41,6 +41,20 @@ data Dupe = Dupe { exists :: Bool
 
 type Dupes = [Dupe]
 
+helpMsg :: String
+helpMsg = "See help: [-h] or [--help]"
+
+lineLength :: String -> String
+lineLength = take 40
+
+errFormat :: String -> String
+errFormat s = nn ++ t ++ nn ++ s ++ nn ++ t ++ "\n"
+    where nn = "\n\n"
+          t  = take 40 $ repeat '~'
+
+lineSep :: [String] -> String
+lineSep = intercalate "\n"
+
 anyEq :: Eq a => [a] -> [a] -> Bool
 anyEq x y = any id $ (==) <$> x <*> y
 
@@ -48,12 +62,23 @@ heading :: String -> IO ()
 heading s = putStrLn $ "\n" ++ x ++ "\n"
     where x = take 40 $ (map toUpper s) ++ " " ++ repeat '-'
 
-expLocate :: [FilePath] -> IO String
-expLocate []     = error "No experiences file found.\
-    \ See help: [-h] or [--help]"
-expLocate (x:xs) = do
+readmeGet :: IO String
+readmeGet = do
+    let r = "README.md"
+    exists <- doesFileExist r
+    cd     <- getCurrentDirectory
+    if exists
+        then readFile r
+        else error $ errFormat $ lineSep [ r ++ " not found in:"
+                                         , cd
+                                         , helpMsg
+                                         ]
+
+expGet :: [FilePath] -> IO String
+expGet []     = error $ errFormat $ "No experiences file found.\n" ++ helpMsg
+expGet (x:xs) = do
     exists <- doesFileExist x
-    if exists then readFile x else expLocate xs
+    if exists then readFile x else expGet xs
 
 -- Stats --------------------
 
@@ -98,7 +123,7 @@ onlyDupes l = filter ((== True) . exists) l
 pretty :: Dupes -> String
 pretty [] = "No Duplicates\n\n"
 pretty x  = foldr (\a b -> s a b) "" x
-    where s a b = intercalate "\n" [ first a
-                                   , second a
-                                   , ""
-                                   , b]
+    where s a b = lineSep [ first a
+                          , second a
+                          , ""
+                          , b]
