@@ -52,8 +52,8 @@ errFormat s = nn ++ t ++ nn ++ s ++ nn ++ t ++ "\n"
     where nn = "\n\n"
           t  = lineLength $ repeat '~'
 
-lineSep :: [String] -> String
-lineSep = intercalate "\n"
+unlines' :: [String] -> String
+unlines' = intercalate "\n"
 
 anyEq :: Eq a => [a] -> [a] -> Bool
 anyEq x y = any id $ (==) <$> x <*> y
@@ -69,7 +69,7 @@ readmeGet = do
     cd     <- getCurrentDirectory
     if exists
         then readFile r
-        else error $ errFormat $ lineSep [ r ++ " not found in:"
+        else error $ errFormat $ unlines' [ r ++ " not found in:"
                                          , cd
                                          , helpMsg
                                          ]
@@ -123,7 +123,7 @@ onlyDupes l = filter ((== True) . exists) l
 pretty :: Dupes -> String
 pretty [] = "No Duplicates\n\n"
 pretty x  = foldr (\a b -> s a b) "" x
-    where s a b = lineSep [ first a
+    where s a b = unlines' [ first a
                           , second a
                           , ""
                           , b]
