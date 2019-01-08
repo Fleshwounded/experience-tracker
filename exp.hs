@@ -50,7 +50,7 @@ lineLength = take 40
 errFormat :: String -> String
 errFormat s = nn ++ t ++ nn ++ s ++ nn ++ t ++ "\n"
     where nn = "\n\n"
-          t  = take 40 $ repeat '~'
+          t  = lineLength $ repeat '~'
 
 lineSep :: [String] -> String
 lineSep = intercalate "\n"
@@ -60,7 +60,7 @@ anyEq x y = any id $ (==) <$> x <*> y
 
 heading :: String -> IO ()
 heading s = putStrLn $ "\n" ++ x ++ "\n"
-    where x = take 40 $ (map toUpper s) ++ " " ++ repeat '-'
+    where x = lineLength $ (map toUpper s) ++ " " ++ repeat '-'
 
 readmeGet :: IO String
 readmeGet = do
