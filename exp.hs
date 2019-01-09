@@ -1,4 +1,4 @@
-import Control.Applicative
+import Control.Applicative (liftA2)
 import Data.Char (toUpper)
 import Data.List ((\\), find, intercalate, tails)
 import System.Environment (getArgs)
@@ -56,7 +56,7 @@ unlines' :: [String] -> String
 unlines' = intercalate "\n"
 
 anyEq :: Eq a => [a] -> [a] -> Bool
-anyEq x y = any id $ (==) <$> x <*> y
+anyEq x y = any id $ liftA2 (==) x y
 
 heading :: String -> IO ()
 heading s = putStrLn $ "\n" ++ x ++ "\n"
