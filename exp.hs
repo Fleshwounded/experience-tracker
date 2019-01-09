@@ -70,9 +70,9 @@ readmeGet = do
     if exists
         then readFile r
         else error $ errFormat $ unlines' [ r ++ " not found in:"
-                                         , cd
-                                         , helpMsg
-                                         ]
+                                          , cd
+                                          , helpMsg
+                                          ]
 
 expGet :: [FilePath] -> IO String
 expGet []     = error $ errFormat $ "No experiences file found.\n" ++ helpMsg
@@ -124,6 +124,6 @@ pretty :: Dupes -> String
 pretty [] = "No Duplicates\n\n"
 pretty x  = foldr (\a b -> s a b) "" x
     where s a b = unlines' [ first a
-                          , second a
-                          , ""
-                          , b]
+                           , second a
+                           , ""
+                           , b]
