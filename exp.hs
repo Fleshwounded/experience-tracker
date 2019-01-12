@@ -144,8 +144,8 @@ dupeCheck :: Drugs -> Drugs -> Dupe
 dupeCheck a b | a == [] && b == []             = f
               | null (a \\ b) && null (b \\ a) = t
               | otherwise                      = f
-              where t = Dupe True (unwords a) (unwords b)
-                    f = Dupe False ""         ""
+              where t = Dupe True  (unwords a) (unwords b)
+                    f = Dupe False ""          ""
 
 onlyDupes :: Dupes -> Dupes
 onlyDupes l = filter ((== True) . exists) l
