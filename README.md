@@ -1,6 +1,6 @@
-# How to use:
+## How to use:
 
-## 1. Understand the format of the experience journal (*exp.txt*)
+### 1. Understand the format of the experience journal (*exp.txt*)
 
 It looks like this:
 
@@ -20,7 +20,7 @@ So basically, every drug you have taken by itself is on its own line. For drug c
 
 The main pitfall of this notation is duplicates, because `weed lsd` is the same experience as `lsd weed` (unless we want to get technical). But anyway, that is why the experience tracker has a good duplicate detector...
 
-## 2. Use the experience tracker (*exp.hs*)
+### 2. Use the experience tracker (*exp.hs*)
 
 If you run the experience tracker, it should give you this output:
 
@@ -71,3 +71,7 @@ If you don’t specify a path to an experiences file, then it will look for a fi
 Use the `-h` or `--help` flags to view this readme on the command-line.
 
 *exp.hs* should run on any major OS, but it is coded in Haskell so you will need to install <a href="https://www.haskell.org/ghc/">GHC</a> in order to run it using `runhaskell`.
+
+## Legal Disclaimer
+
+This script is for educational use only. It is not to be used for real drugs and its author doesn’t condone doing real drugs.
