@@ -1,6 +1,7 @@
 import Control.Applicative (liftA2)
 import Data.Char (toUpper)
-import Data.List ((\\), find, intercalate, tails)
+import Data.List ((\\), maximumBy, find, intercalate, tails)
+import Data.Ord (comparing)
 import System.Environment (getArgs)
 import System.Directory (doesFileExist, getCurrentDirectory, getHomeDirectory)
 
@@ -15,16 +16,18 @@ main = do
             let expPath = [ "exp.txt", home ++ "exp.txt"]
             exp  <- expGet $ args ++ expPath
             heading "stats"
-            putStr
-                $  statShow "Drugs" drugCount exp
-                ++ statShow "Combos" comboCount exp
-                ++ statShow "Total" totalCount exp
+            let totalShow = statShow "Total" totalCount exp
+            putStr $  statShow "Drugs" drugCount exp
+                   ++ statShow "Combos" comboCount exp
+                   ++ totalLine totalShow
+                   ++ totalShow
+                   ++ "\n"
+                   ++ longestShow exp
             heading "duplicates"
-            putStr
-                $ pretty
-                $ onlyDupes
-                $ dupes
-                $ wordList exp
+            putStr $ pretty
+                   $ onlyDupes
+                   $ dupes
+                   $ wordList exp
 
 -- General --------------------
 
@@ -44,13 +47,19 @@ type Dupes = [Dupe]
 helpMsg :: String
 helpMsg = "See help: [-h] or [--help]"
 
+emDash :: Char
+emDash = '\8212'
+
+triangle :: Char
+triangle = '\x25b3'
+
 lineLength :: String -> String
 lineLength = take 40
 
 errFormat :: String -> String
 errFormat s = nn ++ t ++ nn ++ s ++ nn ++ t ++ "\n"
     where nn = "\n\n"
-          t  = lineLength $ repeat '~'
+          t  = lineLength $ unwords $ repeat $ triangle : ' ' : ""
 
 unlines' :: [String] -> String
 unlines' = intercalate "\n"
@@ -58,9 +67,15 @@ unlines' = intercalate "\n"
 anyEq :: Eq a => [a] -> [a] -> Bool
 anyEq x y = any id $ liftA2 (==) x y
 
+indent :: String
+indent = replicate 2 ' '
+
+column :: String -> String
+column x = take 8 $ x ++ repeat ' '
+
 heading :: String -> IO ()
 heading s = putStrLn $ "\n" ++ x ++ "\n"
-    where x = lineLength $ (map toUpper s) ++ " " ++ repeat '-'
+    where x = lineLength $ (map toUpper s) ++ " " ++ repeat emDash
 
 readmeGet :: IO String
 readmeGet = do
@@ -80,6 +95,10 @@ expGet (x:xs) = do
     exists <- doesFileExist x
     if exists then readFile x else expGet xs
 
+wordList :: String -> Exp
+wordList "" = [[""]]
+wordList s  = map words (lines s)
+
 -- Stats --------------------
 
 unique :: Eq a => [a] -> [a]
@@ -92,20 +111,31 @@ drugCount = length . unique . words
 totalCount :: String -> Int
 totalCount = length . lines
 
+-- totalLine :: String -> String
+totalLine s = map (\x -> if x == '\n' then '\n' else emDash) s
+
 comboCount :: String -> Int
 comboCount s = totalCount s - drugCount s
+
+-- longest :: [a] -> a
+longest = maximumBy (comparing length)
+
+longestCombo :: String -> String
+longestCombo = unwords . longest . wordList
+
+longestCount :: String -> String
+longestCount = show . length . longestCombo
 
 statShow :: String -> (String -> Int) -> String -> String
 statShow s f x = column (s ++ ":") ++ (show . f) x ++ "\n"
 
-column :: String -> String
-column x = take 8 $ x ++ repeat ' '
+longestShow :: String -> String
+longestShow s = "Longest combo:\n"
+              ++ subItem "Length:" longestCount
+              ++ subItem "Combo:" longestCombo
+                  where subItem t f = indent ++ column t ++ f s ++ "\n"
 
 -- Duplicates --------------------
-
-wordList :: String -> Exp
-wordList "" = [[""]]
-wordList s  = map words (lines s)
 
 dupes :: Exp -> Dupes
 dupes l = [x `dupeCheck` y | (x:ys) <- tails l, y <- ys]
