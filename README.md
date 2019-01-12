@@ -25,18 +25,18 @@ The main pitfall of this notation is duplicates, because `weed lsd` is the same 
 If you run the experience tracker, it should give you this output:
 
 ```
-STATS ——————————————————————————————————
+STATS ==================================
 
 Drugs:  7
 Combos: 22
 ——————————
 Total:  29
 
-Longest combo:
-  Length: 42
+Longest combo (most drugs at once):
+  Length: 5
   Combo:  noopept oxiracetam lions-mane weed alcohol
 
-DUPLICATES —————————————————————————————
+DUPLICATES =============================
 
 weed
 weed
@@ -55,7 +55,6 @@ oxiracetam lions-mane noopept
 
 noopept oxiracetam lions-mane weed alcohol
 noopept oxiracetam lions-mane weed alcohol
-
 ```
 
 It counts all the drugs and combos and the total unique experiences you’ve had. Additionally, it shows you the longest combo you have ever done (most drugs at once). But also, it checks your entire file for duplicates, irrespective of the order in which you have written them.
