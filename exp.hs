@@ -75,7 +75,7 @@ column x = take 8 $ x ++ repeat ' '
 
 heading :: String -> IO ()
 heading s = putStrLn $ "\n" ++ x ++ "\n"
-    where x = lineLength $ (map toUpper s) ++ " " ++ repeat emDash
+    where x = lineLength $ (map toUpper s) ++ " " ++ repeat '='
 
 readmeGet :: IO String
 readmeGet = do
@@ -111,28 +111,28 @@ drugCount = length . unique . words
 totalCount :: String -> Int
 totalCount = length . lines
 
--- totalLine :: String -> String
-totalLine s = map (\x -> if x == '\n' then '\n' else emDash) s
+totalLine :: String -> String
+totalLine = map (\x -> if x == '\n' then x else emDash)
 
 comboCount :: String -> Int
 comboCount s = totalCount s - drugCount s
 
--- longest :: [a] -> a
+longest :: (Foldable t1, Foldable t2) => t1 (t2 a) -> t2 a
 longest = maximumBy (comparing length)
 
-longestCombo :: String -> String
-longestCombo = unwords . longest . wordList
+longestCombo :: String -> [String]
+longestCombo = longest . wordList
 
-longestCount :: String -> String
-longestCount = show . length . longestCombo
+longestCount :: String -> Int
+longestCount = length . longestCombo
 
 statShow :: String -> (String -> Int) -> String -> String
 statShow s f x = column (s ++ ":") ++ (show . f) x ++ "\n"
 
 longestShow :: String -> String
-longestShow s = "Longest combo:\n"
-              ++ subItem "Length:" longestCount
-              ++ subItem "Combo:" longestCombo
+longestShow s = "Longest combo (most drugs at once):\n"
+              ++ subItem "Length:" (show . longestCount)
+              ++ subItem "Combo:" (unwords . longestCombo)
                   where subItem t f = indent ++ column t ++ f s ++ "\n"
 
 -- Duplicates --------------------

@@ -25,13 +25,21 @@ The main pitfall of this notation is duplicates, because `weed lsd` is the same 
 If you run the experience tracker, it should give you this output:
 
 ```
-STATS ----------------------------------
+STATS ——————————————————————————————————
 
 Drugs:  7
-Combos: 18
-Total:  25
+Combos: 22
+——————————
+Total:  29
 
-DUPLICATES -----------------------------
+Longest combo:
+  Length: 42
+  Combo:  noopept oxiracetam lions-mane weed alcohol
+
+DUPLICATES —————————————————————————————
+
+weed
+weed
 
 weed lsd
 lsd weed
@@ -39,14 +47,18 @@ lsd weed
 weed lsd noopept
 lsd weed noopept
 
+noopept oxiracetam
+noopept oxiracetam
+
 noopept oxiracetam lions-mane
 oxiracetam lions-mane noopept
 
 noopept oxiracetam lions-mane weed alcohol
 noopept oxiracetam lions-mane weed alcohol
+
 ```
 
-It counts all the drugs and combos and the total unique experiences you’ve had. But also, it checks your entire file for duplicates, irrespective of the order in which you have written them.
+It counts all the drugs and combos and the total unique experiences you’ve had. Additionally, it shows you the longest combo you have ever done (most drugs at once). But also, it checks your entire file for duplicates, irrespective of the order in which you have written them.
 
 You put *exp.hs* in any directory and run it from the command line like so:
 
