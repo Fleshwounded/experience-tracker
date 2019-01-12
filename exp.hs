@@ -131,9 +131,9 @@ statShow s f x = column (s ++ ":") ++ (show . f) x ++ "\n"
 
 longestShow :: String -> String
 longestShow s = "Longest combo (most drugs at once):\n"
-              ++ subItem "Length:" (show . longestCount)
-              ++ subItem "Combo:"  (unwords . longestCombo)
-                  where subItem t f = indent ++ column t ++ f s ++ "\n"
+                ++ subItem "Length:" (show . longestCount)
+                ++ subItem "Combo:"  (unwords . longestCombo)
+                    where subItem t f = indent ++ column t ++ f s ++ "\n"
 
 -- Duplicates --------------------
 
