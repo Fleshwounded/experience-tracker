@@ -11,9 +11,11 @@ weed lsd noopept
 weed lsd noopept alcohol
 weed lsd dmt
 
-alcohol
-alcohol weed
-alcohol lsd
+noopept
+noopept oxiracetam
+noopept oxiracetam lions-mane
+noopept oxiracetam lions-mane weed
+noopept oxiracetam lions-mane weed alcohol
 ````
 
 So basically, every drug you have taken by itself is on its own line. For drug combos, you write multiple drugs on the same line. Notice how this creates hierarchies of unique combos - because `weed lsd` is a different experience from `weed lsd noopept`. Empty lines are ignored.

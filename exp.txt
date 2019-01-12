@@ -4,9 +4,12 @@ weed lsd noopept
 weed lsd noopept alcohol
 weed lsd dmt
 
-alcohol
-alcohol weed
-alcohol lsd
+noopept
+noopept oxiracetam
+noopept oxiracetam lions-mane
+noopept oxiracetam lions-mane weed
+noopept oxiracetam lions-mane weed alcohol
+noopept oxiracetam lions-mane weed alcohol
 
 lsd
 lsd weed
@@ -14,12 +17,9 @@ lsd weed noopept
 
 dmt
 
-noopept
-noopept oxiracetam
-noopept oxiracetam lions-mane
-noopept oxiracetam lions-mane weed
-noopept oxiracetam lions-mane weed alcohol
-noopept oxiracetam lions-mane weed alcohol
+alcohol
+alcohol weed
+alcohol lsd
 
 weed
 
