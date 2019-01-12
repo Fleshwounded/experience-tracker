@@ -17,7 +17,7 @@ main = do
             exp  <- expGet $ args ++ expPath
             heading "stats"
             let totalShow = statShow "Total" totalCount exp
-            putStr $  statShow "Drugs" drugCount exp
+            putStr $  statShow "Drugs"  drugCount  exp
                    ++ statShow "Combos" comboCount exp
                    ++ totalLine totalShow
                    ++ totalShow
@@ -132,7 +132,7 @@ statShow s f x = column (s ++ ":") ++ (show . f) x ++ "\n"
 longestShow :: String -> String
 longestShow s = "Longest combo (most drugs at once):\n"
               ++ subItem "Length:" (show . longestCount)
-              ++ subItem "Combo:" (unwords . longestCombo)
+              ++ subItem "Combo:"  (unwords . longestCombo)
                   where subItem t f = indent ++ column t ++ f s ++ "\n"
 
 -- Duplicates --------------------
@@ -145,7 +145,7 @@ dupeCheck a b | a == [] && b == []             = f
               | null (a \\ b) && null (b \\ a) = t
               | otherwise                      = f
               where t = Dupe True (unwords a) (unwords b)
-                    f = Dupe False "" ""
+                    f = Dupe False ""         ""
 
 onlyDupes :: Dupes -> Dupes
 onlyDupes l = filter ((== True) . exists) l
