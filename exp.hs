@@ -7,27 +7,30 @@ import System.Directory (doesFileExist, getCurrentDirectory, getHomeDirectory)
 
 main = do
     args <- getArgs
+    -- TODO: implement -s --sort argument to alphabetise file. Use case switch instead?
     if anyEq ["-h", "--help"] args
         then do
             help <- readmeGet
             putStr help
-        else do
-            home <- getHomeDirectory
-            let expPath = [ "exp.txt", home ++ "exp.txt"]
-            exp  <- expGet $ args ++ expPath
-            heading "stats"
-            let totalShow = statShow "Total" totalCount exp
-            putStr $  statShow "Drugs"  drugCount  exp
-                   ++ statShow "Combos" comboCount exp
-                   ++ totalLine totalShow
-                   ++ totalShow
-                   ++ "\n"
-                   ++ longestShow exp
-            heading "duplicates"
-            putStr $ pretty
-                   $ onlyDupes
-                   $ dupes
-                   $ wordList exp
+        else if anyEq ["-s", "--sort"] args
+               then do
+               else do
+                    home <- getHomeDirectory
+                    let expPath = [ "exp.txt", home ++ "exp.txt"]
+                    exp  <- expGet $ args ++ expPath
+                    heading "stats"
+                    let totalShow = statShow "Total" totalCount exp
+                    putStr $  statShow "Drugs"  drugCount  exp
+                           ++ statShow "Combos" comboCount exp
+                           ++ totalLine totalShow
+                           ++ totalShow
+                           ++ "\n"
+                           ++ longestShow exp
+                    heading "duplicates"
+                    putStr $ pretty
+                           $ onlyDupes
+                           $ dupes
+                           $ wordList exp
 
 -- General --------------------
 
