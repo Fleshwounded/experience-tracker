@@ -1,20 +1,33 @@
 import Control.Applicative (liftA2)
 import Data.Char (toUpper)
-import Data.List ((\\), maximumBy, find, intercalate, tails)
+import Data.List ((\\), maximumBy, find, intercalate, sort, tails)
 import Data.Ord (comparing)
 import System.Environment (getArgs)
 import System.Directory (doesFileExist, getCurrentDirectory, getHomeDirectory)
+import System.IO (writeFile)
+
+-- TODO: implement args: -d, -c. These allow you to run just certain parts of the program. modularity. make help file list the arguments and then just link to the full github readme.
 
 main = do
     args <- getArgs
-    -- TODO: implement -s --sort argument to alphabetise file. Use case switch instead?
+    -- TODO: implement -s --sort argument to alphabetise file. Use case switch instead? It has a confirmation y/n that tells you that newlines in file will be erased. Define a constant for lines so it isnt recalculated so many times? Refactor this whole change after it is working
     if anyEq ["-h", "--help"] args
         then do
             help <- readmeGet
             putStr help
         else if anyEq ["-s", "--sort"] args
-               then do
-               else do
+                then do
+                    home <- getHomeDirectory
+                    exp  <- expGet ["/home/bengyup/Desktop/backup/exp.txt"]
+                    let theLines = sort $ lines exp
+                    let firstWord = head $ words $ head theLines
+                    let lastWord = last $ words $ last theLines
+                    let alphabetised = unlines theLines
+                    putStr alphabetised
+                    writeFile "/home/bengyup/Desktop/backup/exp.txt" alphabetised
+                    let msg = "File has been sorted alphabetically from " ++ sortedExample firstWord ++ " to " ++ sortedExample lastWord
+                    putStrLn msg
+                else do
                     home <- getHomeDirectory
                     let expPath = [ "exp.txt", home ++ "exp.txt"]
                     exp  <- expGet $ args ++ expPath
@@ -55,6 +68,21 @@ emDash = '\8212'
 
 triangle :: Char
 triangle = '\x25b3'
+
+openCurly :: Char
+openCurly = '\x2018'
+
+closeCurly :: Char
+closeCurly = '\x2019'
+
+surroundCurly :: String -> String
+surroundCurly s = [openCurly] ++ s ++ [closeCurly]
+
+addEllipsis :: String -> String
+addEllipsis s = s ++ " ..."
+
+sortedExample :: String -> String
+sortedExample = surroundCurly . addEllipsis
 
 lineLength :: String -> String
 lineLength = take 40
