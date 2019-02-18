@@ -11,12 +11,15 @@ import System.IO (writeFile)
 main = do
     args <- getArgs
     -- TODO: implement -s --sort argument to alphabetise file. Use case switch instead? It has a confirmation y/n that tells you that newlines in file will be erased. Define a constant for lines so it isnt recalculated so many times? Refactor this whole change after it is working
-    if anyEq ["-h", "--help"] args
+    if ["-h", "--help"] `anyEq` args
         then do
             help <- readmeGet
             putStr help
-        else if anyEq ["-s", "--sort"] args
+        else if ["-s", "--sort"] `anyEq` args
                 then do
+                    putStrLn "Sort the experience file alphabetically?"
+                    sortConfirmation <- getLine
+                    -- TODO: get yesno prompt from here: https://stackoverflow.com/questions/5695649/writing-loops-for-interactive-io-problems-with-do-notation-and-layout
                     home <- getHomeDirectory
                     exp  <- expGet ["/home/bengyup/Desktop/backup/exp.txt"]
                     let theLines = sort $ lines exp
@@ -63,17 +66,14 @@ type Dupes = [Dupe]
 helpMsg :: String
 helpMsg = "See help: [-h] or [--help]"
 
-emDash :: Char
+emDash, triangle, openCurly, closeCurly :: Char
+
 emDash = '\8212'
-
-triangle :: Char
 triangle = '\x25b3'
-
-openCurly :: Char
 openCurly = '\x2018'
-
-closeCurly :: Char
 closeCurly = '\x2019'
+
+
 
 surroundCurly :: String -> String
 surroundCurly s = [openCurly] ++ s ++ [closeCurly]
