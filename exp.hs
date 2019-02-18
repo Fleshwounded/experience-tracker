@@ -6,11 +6,8 @@ import System.Environment (getArgs)
 import System.Directory (doesFileExist, getCurrentDirectory, getHomeDirectory)
 import System.IO (writeFile)
 
--- TODO: implement args: -d, -c. These allow you to run just certain parts of the program. modularity. make help file list the arguments and then just link to the full github readme.
-
 main = do
     args <- getArgs
-    -- TODO: implement -s --sort argument to alphabetise file. Use case switch instead? It has a confirmation y/n that tells you that newlines in file will be erased. Define a constant for lines so it isnt recalculated so many times? Refactor this whole change after it is working
     if ["-h", "--help"] `anyEq` args
         then do
             help <- readmeGet
@@ -19,7 +16,6 @@ main = do
                 then do
                     putStrLn "Sort the experience file alphabetically?"
                     sortConfirmation <- getLine
-                    -- TODO: get yesno prompt from here: https://stackoverflow.com/questions/5695649/writing-loops-for-interactive-io-problems-with-do-notation-and-layout
                     home <- getHomeDirectory
                     exp  <- expGet ["/home/bengyup/Desktop/backup/exp.txt"]
                     let theLines = sort $ lines exp
@@ -73,24 +69,16 @@ triangle = '\x25b3'
 openCurly = '\x2018'
 closeCurly = '\x2019'
 
+surroundCurly, addEllipsis, sortedExample, errFormat, column :: String -> String
 
-
-surroundCurly :: String -> String
 surroundCurly s = [openCurly] ++ s ++ [closeCurly]
-
-addEllipsis :: String -> String
 addEllipsis s = s ++ " ..."
-
-sortedExample :: String -> String
 sortedExample = surroundCurly . addEllipsis
-
-lineLength :: String -> String
 lineLength = take 40
-
-errFormat :: String -> String
 errFormat s = nn ++ t ++ nn ++ s ++ nn ++ t ++ "\n"
     where nn = "\n\n"
           t  = lineLength $ unwords $ repeat $ triangle : ' ' : ""
+column x = take 8 $ x ++ repeat ' '
 
 unlines' :: [String] -> String
 unlines' = intercalate "\n"
@@ -100,9 +88,6 @@ anyEq x y = any id $ liftA2 (==) x y
 
 indent :: String
 indent = replicate 2 ' '
-
-column :: String -> String
-column x = take 8 $ x ++ repeat ' '
 
 heading :: String -> IO ()
 heading s = putStrLn $ "\n" ++ x ++ "\n"
@@ -136,10 +121,9 @@ unique :: Eq a => [a] -> [a]
 unique [] = []
 unique (x:xs) = (if x `elem` xs then id else (x:)) $ unique xs
 
-drugCount :: String -> Int
-drugCount = length . unique . words
+drugCount, totalCount :: String -> Int
 
-totalCount :: String -> Int
+drugCount = length . unique . words
 totalCount = length . lines
 
 totalLine :: String -> String
