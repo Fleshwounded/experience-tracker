@@ -61,9 +61,7 @@ noopept oxiracetam lions-mane weed alcohol
 
 It counts all the drugs and combos and the total unique experiences you’ve had. Additionally, it shows you the longest combo you have ever done (most drugs at once). But also, it checks your entire file for duplicates, irrespective of the order in which you have written them.
 
-You put *exp.hs* in any directory and run it from the command line like so:
-
-`runhaskell exp.hs <optional path to an experiences file>`
+To install it, compile *exp.hs* with: `ghc -o exp exp.hs`. Then put the three binary files in a directory such as your `bin`, and create a shell alias to it, such as: `alias exp='/home/$(echo $USER)/bin/exp/exp'`.
 
 If you don’t specify a path to an experiences file, then it will look for a file called `exp.txt` in the following locations:
 

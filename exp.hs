@@ -168,7 +168,4 @@ onlyDupes l = filter ((== True) . exists) l
 pretty :: Dupes -> String
 pretty [] = "No Duplicates\n\n"
 pretty x  = foldr (\a b -> s a b) "" x
-    where s a b = unlines' [ first a
-                           , second a
-                           , ""
-                           , b]
+    where s a b = unlines' [first a, second a, "", b]
