@@ -76,4 +76,4 @@ Use the `-h` or `--help` flags to view this readme on the command-line.
 
 ## Legal Disclaimer
 
-This script is for educational use only. It is not to be used for real drugs and its author doesn’t condone doing real drugs.
+This script is for educational use only. Its author doesn’t condone doing drugs.
